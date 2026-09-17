@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="J&M S.A.C. - Instituto de Capacitación y Formación Profesional">
+    <title>J&M S.A.C. | Instituto de Capacitación</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================================
+         BARRA SUPERIOR
+    ================================= -->
+    <div class="topbar">
+        <div class="container topbar-content">
+
+            <div class="topbar-info">
+                <span>📞 +51 934 995 434 / +51 981 543 645</span>
+                <span>✉️ institutodecapacitacionjm@gmail.com</span>
+            </div>
+
+            <div class="topbar-social">
+                <a href="#" aria-label="Facebook">f</a>
+                <a href="#" aria-label="Instagram">ig</a>
+                <a href="#" aria-label="TikTok">tk</a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ================================
+         NAVBAR
+    ================================= -->
+    <header class="header">
+        <div class="container nav-container">
+
+            <a href="#inicio" class="logo">
+                <span class="logo-icon">J&M</span>
+                <span>J&M S.A.C.</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">
+                ☰
+            </button>
+
+            <nav class="nav" id="navMenu">
+                <a href="#inicio">Inicio</a>
+                <a href="#cursos">Cursos</a>
+                <a href="#diplomados">Diplomados</a>
+                <a href="#nosotros">Nosotros</a>
+                <a href="#proceso">Cómo funciona</a>
+                <a href="#contacto">Contacto</a>
+                <a href="#inscribete" class="nav-button">Inscríbete</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- ================================
+         HERO
+    ================================= -->
+    <section class="hero" id="inicio">
+
+        <div class="container hero-content">
+
+            <div class="hero-text">
+
+                <span class="hero-tag">
+                    INSTITUTO DE CAPACITACIÓN
+                </span>
+
+                <h1>
+                    Aprende hoy,
+                    <span>crece mañana.</span>
+                </h1>
+
+                <p>
+                    Desarrolla tus conocimientos y habilidades con nuestros
+                    cursos y diplomados profesionales.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#cursos" class="btn btn-primary">
+                        Ver cursos
+                    </a>
+
+                    <a
+                        href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quisiera%20informaci%C3%B3n%20sobre%20sus%20cursos."
+                        target="_blank"
+                        class="btn btn-whatsapp"
+                    >
+                        💬 WhatsApp
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="hero-card">
+
+                <div class="hero-card-icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Formación profesional
+                </h3>
+
+                <p>
+                    Capacítate y mejora tus oportunidades profesionales.
+                </p>
+
+                <div class="hero-stat">
+                    <strong>100%</strong>
+                    <span>Enfoque práctico</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         BUSCADOR
+    ================================= -->
+    <section class="search-section">
+
+        <div class="container">
+
+            <div class="search-box">
+
+                <div class="search-title">
+                    <h2>Encuentra tu curso</h2>
+                    <p>
+                        Explora nuestras opciones de capacitación.
+                    </p>
+                </div>
+
+                <div class="search-form">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="¿Qué quieres aprender?"
+                    >
+
+                    <select id="categoryFilter">
+
+                        <option value="all">
+                            Todas las categorías
+                        </option>
+
+                        <option value="salud">
+                            Salud
+                        </option>
+
+                        <option value="educacion">
+                            Educación
+                        </option>
+
+                        <option value="administracion">
+                            Administración
+                        </option>
+
+                        <option value="tecnologia">
+                            Tecnología
+                        </option>
+
+                        <option value="marketing">
+                            Marketing
+                        </option>
+
+                        <option value="gestion">
+                            Gestión
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         CATEGORÍAS
+    ================================= -->
+    <section class="categories">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <span class="section-tag">
+                    CATEGORÍAS
+                </span>
+
+                <h2>
+                    Aprende en diferentes áreas
+                </h2>
+
+                <p>
+                    Encuentra capacitación de acuerdo con tus intereses.
+                </p>
+
+            </div>
+
+            <div class="category-grid">
+
+                <div class="category-card" data-category="salud">
+                    <div class="category-icon">🏥</div>
+                    <h3>Salud</h3>
+                    <p>Cursos especializados</p>
+                </div>
+
+                <div class="category-card" data-category="educacion">
+                    <div class="category-icon">📚</div>
+                    <h3>Educación</h3>
+                    <p>Formación educativa</p>
+                </div>
+
+                <div class="category-card" data-category="administracion">
+                    <div class="category-icon">📊</div>
+                    <h3>Administración</h3>
+                    <p>Gestión empresarial</p>
+                </div>
+
+                <div class="category-card" data-category="tecnologia">
+                    <div class="category-icon">💻</div>
+                    <h3>Tecnología</h3>
+                    <p>Herramientas digitales</p>
+                </div>
+
+                <div class="category-card" data-category="marketing">
+                    <div class="category-icon">📱</div>
+                    <h3>Marketing</h3>
+                    <p>Marketing y ventas</p>
+                </div>
+
+                <div class="category-card" data-category="gestion">
+                    <div class="category-icon">🎯</div>
+                    <h3>Gestión</h3>
+                    <p>Liderazgo y gestión</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         CURSOS
+    ================================= -->
+    <section class="courses" id="cursos">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <span class="section-tag">
+                    NUESTROS CURSOS
+                </span>
+
+                <h2>
+                    Cursos disponibles
+                </h2>
+
+                <p>
+                    Capacítate con contenidos prácticos y actualizados.
+                </p>
+
+            </div>
+
+
+            <div class="course-grid" id="courseGrid">
+
+
+                <!-- CURSO 1 -->
+                <article
+                    class="course-card"
+                    data-category="salud"
+                    data-title="primeros auxilios"
+                >
+
+                    <div class="course-image health">
+                        🏥
+                    </div>
+
+                    <div class="course-content">
+
+                        <span class="course-category">
+                            Salud
+                        </span>
+
+                        <h3>
+                            Primeros Auxilios
+                        </h3>
+
+                        <p>
+                            Aprende los conocimientos básicos para actuar
+                            correctamente ante una emergencia.
+                        </p>
+
+                        <div class="course-info">
+                            <span>⏱ 40 horas</span>
+                            <span>📜 Certificado</span>
+                        </div>
+
+                        <div class="course-bottom">
+
+                            <strong>
+                                S/ 80.00
+                            </strong>
+
+                            <a
+                                href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20curso%20de%20Primeros%20Auxilios."
+                                target="_blank"
+                                class="course-button"
+                            >
+                                Ver curso
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CURSO 2 -->
+                <article
+                    class="course-card"
+                    data-category="educacion"
+                    data-title="estrategias de aprendizaje"
+                >
+
+                    <div class="course-image education">
+                        📚
+                    </div>
+
+                    <div class="course-content">
+
+                        <span class="course-category">
+                            Educación
+                        </span>
+
+                        <h3>
+                            Estrategias de Aprendizaje
+                        </h3>
+
+                        <p>
+                            Conoce diferentes estrategias para mejorar
+                            el proceso de enseñanza y aprendizaje.
+                        </p>
+
+                        <div class="course-info">
+                            <span>⏱ 50 horas</span>
+                            <span>📜 Certificado</span>
+                        </div>
+
+                        <div class="course-bottom">
+
+                            <strong>
+                                S/ 90.00
+                            </strong>
+
+                            <a
+                                href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20curso%20de%20Estrategias%20de%20Aprendizaje."
+                                target="_blank"
+                                class="course-button"
+                            >
+                                Ver curso
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CURSO 3 -->
+                <article
+                    class="course-card"
+                    data-category="administracion"
+                    data-title="administracion empresarial"
+                >
+
+                    <div class="course-image administration">
+                        📊
+                    </div>
+
+                    <div class="course-content">
+
+                        <span class="course-category">
+                            Administración
+                        </span>
+
+                        <h3>
+                            Administración Empresarial
+                        </h3>
+
+                        <p>
+                            Aprende herramientas fundamentales para
+                            gestionar una empresa de manera eficiente.
+                        </p>
+
+                        <div class="course-info">
+                            <span>⏱ 60 horas</span>
+                            <span>📜 Certificado</span>
+                        </div>
+
+                        <div class="course-bottom">
+
+                            <strong>
+                                S/ 100.00
+                            </strong>
+
+                            <a
+                                href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20curso%20de%20Administraci%C3%B3n%20Empresarial."
+                                target="_blank"
+                                class="course-button"
+                            >
+                                Ver curso
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CURSO 4 -->
+                <article
+                    class="course-card"
+                    data-category="tecnologia"
+                    data-title="herramientas digitales"
+                >
+
+                    <div class="course-image technology">
+                        💻
+                    </div>
+
+                    <div class="course-content">
+
+                        <span class="course-category">
+                            Tecnología
+                        </span>
+
+                        <h3>
+                            Herramientas Digitales
+                        </h3>
+
+                        <p>
+                            Mejora tus habilidades digitales utilizando
+                            herramientas modernas para el trabajo.
+                        </p>
+
+                        <div class="course-info">
+                            <span>⏱ 40 horas</span>
+                            <span>📜 Certificado</span>
+                        </div>
+
+                        <div class="course-bottom">
+
+                            <strong>
+                                S/ 80.00
+                            </strong>
+
+                            <a
+                                href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20curso%20de%20Herramientas%20Digitales."
+                                target="_blank"
+                                class="course-button"
+                            >
+                                Ver curso
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CURSO 5 -->
+                <article
+                    class="course-card"
+                    data-category="marketing"
+                    data-title="marketing digital"
+                >
+
+                    <div class="course-image marketing">
+                        📱
+                    </div>
+
+                    <div class="course-content">
+
+                        <span class="course-category">
+                            Marketing
+                        </span>
+
+                        <h3>
+                            Marketing Digital
+                        </h3>
+
+                        <p>
+                            Aprende estrategias para promocionar productos
+                            y servicios mediante canales digitales.
+                        </p>
+
+                        <div class="course-info">
+                            <span>⏱ 50 horas</span>
+                            <span>📜 Certificado</span>
+                        </div>
+
+                        <div class="course-bottom">
+
+                            <strong>
+                                S/ 100.00
+                            </strong>
+
+                            <a
+                                href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20curso%20de%20Marketing%20Digital."
+                                target="_blank"
+                                class="course-button"
+                            >
+                                Ver curso
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CURSO 6 -->
+                <article
+                    class="course-card"
+                    data-category="gestion"
+                    data-title="liderazgo y gestion"
+                >
+
+                    <div class="course-image management">
+                        🎯
+                    </div>
+
+                    <div class="course-content">
+
+                        <span class="course-category">
+                            Gestión
+                        </span>
+
+                        <h3>
+                            Liderazgo y Gestión
+                        </h3>
+
+                        <p>
+                            Desarrolla habilidades de liderazgo y gestión
+                            para alcanzar mejores resultados.
+                        </p>
+
+                        <div class="course-info">
+                            <span>⏱ 40 horas</span>
+                            <span>📜 Certificado</span>
+                        </div>
+
+                        <div class="course-bottom">
+
+                            <strong>
+                                S/ 90.00
+                            </strong>
+
+                            <a
+                                href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20curso%20de%20Liderazgo%20y%20Gesti%C3%B3n."
+                                target="_blank"
+                                class="course-button"
+                            >
+                                Ver curso
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         DIPLOMADOS
+    ================================= -->
+    <section class="diplomas" id="diplomados">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <span class="section-tag">
+                    DIPLOMADOS
+                </span>
+
+                <h2>
+                    Programas de especialización
+                </h2>
+
+                <p>
+                    Lleva tu formación profesional al siguiente nivel.
+                </p>
+
+            </div>
+
+
+            <div class="diploma-grid">
+
+                <article class="diploma-card">
+
+                    <div class="diploma-icon">
+                        🎓
+                    </div>
+
+                    <div>
+
+                        <span>
+                            DIPLOMADO
+                        </span>
+
+                        <h3>
+                            Gestión Administrativa
+                        </h3>
+
+                        <p>
+                            Programa orientado al desarrollo de competencias
+                            para la gestión y administración.
+                        </p>
+
+                        <div class="diploma-details">
+                            <span>📚 120 horas</span>
+                            <span>📜 Certificación</span>
+                        </div>
+
+                    </div>
+
+                    <a
+                        href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Diplomado%20de%20Gesti%C3%B3n%20Administrativa."
+                        target="_blank"
+                        class="diploma-button"
+                    >
+                        Más información
+                    </a>
+
+                </article>
+
+
+                <article class="diploma-card">
+
+                    <div class="diploma-icon">
+                        💻
+                    </div>
+
+                    <div>
+
+                        <span>
+                            DIPLOMADO
+                        </span>
+
+                        <h3>
+                            Tecnología y Herramientas Digitales
+                        </h3>
+
+                        <p>
+                            Fortalece tus competencias en el uso de tecnologías
+                            aplicadas al entorno profesional.
+                        </p>
+
+                        <div class="diploma-details">
+                            <span>📚 120 horas</span>
+                            <span>📜 Certificación</span>
+                        </div>
+
+                    </div>
+
+                    <a
+                        href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Diplomado%20de%20Tecnolog%C3%ADa%20y%20Herramientas%20Digitales."
+                        target="_blank"
+                        class="diploma-button"
+                    >
+                        Más información
+                    </a>
+
+                </article>
+
+
+                <article class="diploma-card">
+
+                    <div class="diploma-icon">
+                        📱
+                    </div>
+
+                    <div>
+
+                        <span>
+                            DIPLOMADO
+                        </span>
+
+                        <h3>
+                            Marketing Digital
+                        </h3>
+
+                        <p>
+                            Aprende estrategias modernas de marketing,
+                            comunicación y presencia digital.
+                        </p>
+
+                        <div class="diploma-details">
+                            <span>📚 120 horas</span>
+                            <span>📜 Certificación</span>
+                        </div>
+
+                    </div>
+
+                    <a
+                        href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Diplomado%20de%20Marketing%20Digital."
+                        target="_blank"
+                        class="diploma-button"
+                    >
+                        Más información
+                    </a>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         NOSOTROS
+    ================================= -->
+    <section class="about" id="nosotros">
+
+        <div class="container about-grid">
+
+            <div class="about-image">
+
+                <div class="about-big-icon">
+                    🎓
+                </div>
+
+                <div class="about-floating">
+                    <strong>J&M</strong>
+                    <span>Capacitación</span>
+                </div>
+
+            </div>
+
+
+            <div class="about-content">
+
+                <span class="section-tag">
+                    SOBRE NOSOTROS
+                </span>
+
+                <h2>
+                    Formación que impulsa tu crecimiento
+                </h2>
+
+                <p>
+                    En <strong>J&M S.A.C.</strong> trabajamos para brindar
+                    oportunidades de capacitación que permitan a nuestros
+                    estudiantes fortalecer sus conocimientos y desarrollar
+                    nuevas habilidades.
+                </p>
+
+                <p>
+                    Nuestro objetivo es ofrecer una formación práctica,
+                    accesible y orientada a las necesidades del mundo
+                    profesional.
+                </p>
+
+
+                <div class="about-features">
+
+                    <div>
+                        <span>✓</span>
+                        <p>Capacitación práctica</p>
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        <p>Certificación</p>
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        <p>Docentes especializados</p>
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        <p>Modalidad flexible</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         POR QUÉ ELEGIRNOS
+    ================================= -->
+    <section class="why-us">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <span class="section-tag">
+                    ¿POR QUÉ J&M?
+                </span>
+
+                <h2>
+                    Una capacitación pensada para ti
+                </h2>
+
+            </div>
+
+
+            <div class="why-grid">
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        🎓
+                    </div>
+
+                    <h3>
+                        Formación profesional
+                    </h3>
+
+                    <p>
+                        Programas diseñados para fortalecer tus competencias.
+                    </p>
+
+                </div>
+
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        👨‍🏫
+                    </div>
+
+                    <h3>
+                        Docentes especializados
+                    </h3>
+
+                    <p>
+                        Aprende con profesionales con experiencia.
+                    </p>
+
+                </div>
+
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        📜
+                    </div>
+
+                    <h3>
+                        Certificación
+                    </h3>
+
+                    <p>
+                        Obtén una constancia o certificado de tu capacitación.
+                    </p>
+
+                </div>
+
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        💬
+                    </div>
+
+                    <h3>
+                        Atención personalizada
+                    </h3>
+
+                    <p>
+                        Resolvemos tus dudas y te orientamos durante tu proceso.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         PROCESO
+    ================================= -->
+    <section class="process" id="proceso">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <span class="section-tag">
+                    ¿CÓMO FUNCIONA?
+                </span>
+
+                <h2>
+                    Inscribirte es muy sencillo
+                </h2>
+
+            </div>
+
+
+            <div class="process-grid">
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        1
+                    </div>
+
+                    <h3>
+                        Elige tu curso
+                    </h3>
+
+                    <p>
+                        Revisa nuestras opciones de capacitación.
+                    </p>
+
+                </div>
+
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        2
+                    </div>
+
+                    <h3>
+                        Contáctanos
+                    </h3>
+
+                    <p>
+                        Escríbenos por WhatsApp o correo electrónico.
+                    </p>
+
+                </div>
+
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        3
+                    </div>
+
+                    <h3>
+                        Realiza tu inscripción
+                    </h3>
+
+                    <p>
+                        Completa el proceso de matrícula.
+                    </p>
+
+                </div>
+
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        4
+                    </div>
+
+                    <h3>
+                        Participa
+                    </h3>
+
+                    <p>
+                        Accede a tu capacitación.
+                    </p>
+
+                </div>
+
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        5
+                    </div>
+
+                    <h3>
+                        Obtén tu certificado
+                    </h3>
+
+                    <p>
+                        Finaliza tu formación y recibe tu certificación.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         CTA
+    ================================= -->
+    <section class="cta" id="inscribete">
+
+        <div class="container cta-content">
+
+            <div>
+
+                <span class="section-tag">
+                    EMPIEZA AHORA
+                </span>
+
+                <h2>
+                    ¿Listo para comenzar tu capacitación?
+                </h2>
+
+                <p>
+                    Escríbenos y recibe información sobre nuestros cursos
+                    y diplomados.
+                </p>
+
+            </div>
+
+
+            <a
+                href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quiero%20informaci%C3%B3n%20para%20inscribirme."
+                target="_blank"
+                class="btn btn-white"
+            >
+                💬 Inscribirme por WhatsApp
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         CONTACTO
+    ================================= -->
+    <section class="contact" id="contacto">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <span class="section-tag">
+                    CONTÁCTANOS
+                </span>
+
+                <h2>
+                    Estamos aquí para ayudarte
+                </h2>
+
+                <p>
+                    Comunícate con J&M S.A.C. para recibir información.
+                </p>
+
+            </div>
+
+
+            <div class="contact-grid">
+
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+                        📞
+                    </div>
+
+                    <h3>
+                        Teléfonos
+                    </h3>
+
+                    <p>
+                        +51 934 995 434
+                    </p>
+
+                    <p>
+                        +51 981 543 645
+                    </p>
+
+                </div>
+
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+                        ✉️
+                    </div>
+
+                    <h3>
+                        Correo electrónico
+                    </h3>
+
+                    <p>
+                        institutodecapacitacionjm@gmail.com
+                    </p>
+
+                </div>
+
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+                        💬
+                    </div>
+
+                    <h3>
+                        WhatsApp
+                    </h3>
+
+                    <p>
+                        Atención directa
+                    </p>
+
+                    <a
+                        href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quisiera%20informaci%C3%B3n."
+                        target="_blank"
+                        class="contact-whatsapp"
+                    >
+                        Escríbenos por WhatsApp
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         FOOTER
+    ================================= -->
+    <footer class="footer">
+
+        <div class="container footer-grid">
+
+
+            <div class="footer-brand">
+
+                <div class="footer-logo">
+                    <span class="logo-icon">J&M</span>
+                    <span>J&M S.A.C.</span>
+                </div>
+
+                <p>
+                    Instituto de capacitación y formación profesional.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h3>
+                    Enlaces
+                </h3>
+
+                <a href="#inicio">
+                    Inicio
+                </a>
+
+                <a href="#cursos">
+                    Cursos
+                </a>
+
+                <a href="#diplomados">
+                    Diplomados
+                </a>
+
+                <a href="#nosotros">
+                    Nosotros
+                </a>
+
+                <a href="#contacto">
+                    Contacto
+                </a>
+
+            </div>
+
+
+            <div class="footer-contact">
+
+                <h3>
+                    Contacto
+                </h3>
+
+                <p>
+                    📞 +51 934 995 434
+                </p>
+
+                <p>
+                    📞 +51 981 543 645
+                </p>
+
+                <p>
+                    ✉️ institutodecapacitacionjm@gmail.com
+                </p>
+
+            </div>
+
+
+            <div class="footer-social">
+
+                <h3>
+                    Síguenos
+                </h3>
+
+                <div>
+
+                    <a href="#">
+                        Facebook
+                    </a>
+
+                    <a href="#">
+                        Instagram
+                    </a>
+
+                    <a href="#">
+                        TikTok
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <div class="container">
+
+                <p>
+                    © 2026 J&M S.A.C. Todos los derechos reservados.
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================================
+         BOTÓN FLOTANTE WHATSAPP
+    ================================= -->
+    <a
+        href="https://wa.me/51934995434?text=Hola%20J%26M%20S.A.C.%2C%20quisiera%20informaci%C3%B3n%20sobre%20sus%20cursos."
+        class="whatsapp-button"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Contactar por WhatsApp"
+    >
+
+        <span class="whatsapp-icon">
+            💬
+        </span>
+
+        <span class="whatsapp-text">
+            WhatsApp
+        </span>
+
+    </a>
+
+
+    <!-- ================================
+         BOTÓN VOLVER ARRIBA
+    ================================= -->
+    <button id="backToTop" class="back-to-top">
+        ↑
+    </button>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+
+</body>
+</html>
