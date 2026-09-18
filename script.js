@@ -1,4 +1,3 @@
-```javascript
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
@@ -26,16 +25,17 @@ let catalog = [];
 let currentResults = [];
 
 function normalizeText(value = "") {
-    return value
+    return String(value)
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toLowerCase()
+        .replace(/[^\w\s]/g, " ")
         .replace(/\s+/g, " ")
         .trim();
 }
 
 function escapeHTML(value = "") {
-    return value
+    return String(value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -48,17 +48,30 @@ function getIcon(title, type) {
 
     const text = normalizeText(title);
 
-    if (/enferm|salud|farmac|pediatr|hospital|uci|clin|quirurg|emergenc|medic|nutric|laboratorio/.test(text)) return "🏥";
-    if (/informat|software|sistema|redes|tecnolog|comput|linux|digital/.test(text)) return "💻";
-    if (/marketing|ventas|cliente|publicidad|comunicacion/.test(text)) return "📱";
-    if (/educacion|docente|enseñanza|aprendizaje|pedagog/.test(text)) return "📚";
+    if (/enferm|salud|farmac|pediatr|hospital|uci|clin|quirurg|emergenc|medic|nutric|laboratorio/.test(text)) {
+        return "🏥";
+    }
+
+    if (/informat|software|sistema|redes|tecnolog|comput|linux|digital|program|web|ciber|datos|base/.test(text)) {
+        return "💻";
+    }
+
+    if (/marketing|ventas|cliente|publicidad|comunicacion|negoci|comercial/.test(text)) {
+        return "📱";
+    }
+
+    if (/educacion|docente|ensenanza|aprendizaje|pedagog|profesor|capacitacion/.test(text)) {
+        return "📚";
+    }
 
     return "🎯";
 }
 
 function whatsappURL(title, type) {
     const label = type === "Diplomado" ? "Diplomado" : "Curso";
-    const message = `Hola J&M S.A.C., quiero información sobre el ${label}: ${title}.`;
+
+    const message =
+        `Hola J&M S.A.C., quiero información sobre el ${label}: ${title}.`;
 
     return `https://wa.me/51934995434?text=${encodeURIComponent(message)}`;
 }
@@ -68,7 +81,10 @@ function createCourseCard(item) {
     const icon = getIcon(item.title, item.type);
 
     return `
-        <article class="course-card catalog-card" data-title="${escapeHTML(normalizeText(item.title))}">
+        <article
+            class="course-card catalog-card"
+            data-title="${escapeHTML(normalizeText(item.title))}"
+        >
             <div class="course-image health">
                 ${icon}
             </div>
@@ -109,7 +125,10 @@ function createDiplomaCard(item) {
     const title = escapeHTML(item.title);
 
     return `
-        <article class="diploma-card catalog-card" data-title="${escapeHTML(normalizeText(item.title))}">
+        <article
+            class="diploma-card catalog-card"
+            data-title="${escapeHTML(normalizeText(item.title))}"
+        >
             <div class="diploma-icon">🎓</div>
 
             <div>
@@ -155,45 +174,545 @@ function createResultsInfo() {
     return element;
 }
 
+function getAllItemText(item) {
+    const values = Object.values(item || {});
+
+    return normalizeText(
+        values
+            .filter(value => value !== null && value !== undefined)
+            .map(value => {
+                if (typeof value === "object") {
+                    return JSON.stringify(value);
+                }
+
+                return String(value);
+            })
+            .join(" ")
+    );
+}
+
+function singularizeWord(word) {
+    let result = normalizeText(word);
+
+    if (result.endsWith("es") && result.length > 5) {
+        result = result.slice(0, -2);
+    } else if (result.endsWith("s") && result.length > 4) {
+        result = result.slice(0, -1);
+    }
+
+    return result;
+}
+
+function levenshteinDistance(a, b) {
+    if (a === b) return 0;
+
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+
+    const matrix = [];
+
+    for (let i = 0; i <= b.length; i++) {
+        matrix[i] = [i];
+    }
+
+    for (let j = 0; j <= a.length; j++) {
+        matrix[0][j] = j;
+    }
+
+    for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+            if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j] + 1
+                );
+            }
+        }
+    }
+
+    return matrix[b.length][a.length];
+}
+
+const relatedWords = {
+    computacion: [
+        "computacion",
+        "informatica",
+        "tecnologia",
+        "software",
+        "hardware",
+        "sistemas",
+        "programacion",
+        "computadora",
+        "digital"
+    ],
+
+    informatica: [
+        "informatica",
+        "computacion",
+        "tecnologia",
+        "software",
+        "sistemas",
+        "programacion",
+        "redes",
+        "digital"
+    ],
+
+    redes: [
+        "redes",
+        "network",
+        "networking",
+        "cisco",
+        "router",
+        "switch",
+        "servidor",
+        "telecomunicaciones",
+        "internet"
+    ],
+
+    seguridad: [
+        "seguridad",
+        "ciberseguridad",
+        "cybersecurity",
+        "proteccion",
+        "riesgo",
+        "firewall",
+        "hacking",
+        "informatica"
+    ],
+
+    salud: [
+        "salud",
+        "medicina",
+        "enfermeria",
+        "farmacia",
+        "hospital",
+        "clinica",
+        "medico",
+        "nutricion",
+        "laboratorio"
+    ],
+
+    medicina: [
+        "medicina",
+        "salud",
+        "medico",
+        "hospital",
+        "clinica",
+        "enfermeria",
+        "farmacia"
+    ],
+
+    enfermeria: [
+        "enfermeria",
+        "enfermero",
+        "salud",
+        "medicina",
+        "hospital",
+        "clinica",
+        "paciente"
+    ],
+
+    marketing: [
+        "marketing",
+        "mercadotecnia",
+        "publicidad",
+        "ventas",
+        "comercial",
+        "cliente",
+        "digital",
+        "redes sociales"
+    ],
+
+    ventas: [
+        "ventas",
+        "marketing",
+        "comercial",
+        "cliente",
+        "negociacion",
+        "publicidad",
+        "mercadotecnia"
+    ],
+
+    administracion: [
+        "administracion",
+        "gestion",
+        "empresa",
+        "negocios",
+        "gerencia",
+        "organizacion",
+        "recursos humanos"
+    ],
+
+    gestion: [
+        "gestion",
+        "administracion",
+        "gerencia",
+        "empresa",
+        "organizacion",
+        "negocios"
+    ],
+
+    contabilidad: [
+        "contabilidad",
+        "contador",
+        "finanzas",
+        "tributacion",
+        "impuestos",
+        "administracion"
+    ],
+
+    finanzas: [
+        "finanzas",
+        "contabilidad",
+        "economia",
+        "inversion",
+        "banca",
+        "administracion"
+    ],
+
+    educacion: [
+        "educacion",
+        "docente",
+        "profesor",
+        "pedagogia",
+        "ensenanza",
+        "aprendizaje",
+        "capacitacion"
+    ],
+
+    docente: [
+        "docente",
+        "profesor",
+        "educacion",
+        "pedagogia",
+        "ensenanza",
+        "aprendizaje"
+    ],
+
+    recursos: [
+        "recursos",
+        "recursos humanos",
+        "personal",
+        "talento",
+        "gestion",
+        "administracion"
+    ],
+
+    humanos: [
+        "recursos humanos",
+        "personal",
+        "talento humano",
+        "gestion",
+        "administracion"
+    ],
+
+    idiomas: [
+        "idiomas",
+        "ingles",
+        "espanol",
+        "frances",
+        "lenguaje",
+        "lengua"
+    ],
+
+    ingles: [
+        "ingles",
+        "idiomas",
+        "lenguaje",
+        "lengua"
+    ],
+
+    excel: [
+        "excel",
+        "office",
+        "hojas de calculo",
+        "datos",
+        "administracion",
+        "contabilidad"
+    ],
+
+    liderazgo: [
+        "liderazgo",
+        "gestion",
+        "gerencia",
+        "administracion",
+        "equipos",
+        "direccion"
+    ],
+
+    calidad: [
+        "calidad",
+        "iso",
+        "gestion",
+        "procesos",
+        "auditoria",
+        "mejora"
+    ],
+
+    proyectos: [
+        "proyectos",
+        "project",
+        "gestion",
+        "administracion",
+        "planificacion"
+    ],
+
+    logistica: [
+        "logistica",
+        "almacen",
+        "inventario",
+        "compras",
+        "suministros",
+        "cadena"
+    ]
+};
+
+function getRelatedTerms(word) {
+    const cleanWord = normalizeText(word);
+
+    if (!cleanWord) return [];
+
+    const terms = new Set();
+
+    terms.add(cleanWord);
+    terms.add(singularizeWord(cleanWord));
+
+    Object.keys(relatedWords).forEach(key => {
+        const keyNormalized = normalizeText(key);
+
+        if (
+            keyNormalized === cleanWord ||
+            keyNormalized.includes(cleanWord) ||
+            cleanWord.includes(keyNormalized)
+        ) {
+            relatedWords[key].forEach(term => {
+                terms.add(normalizeText(term));
+            });
+        }
+    });
+
+    Object.values(relatedWords).forEach(group => {
+        if (
+            group.some(term => {
+                const normalizedTerm = normalizeText(term);
+
+                return (
+                    normalizedTerm === cleanWord ||
+                    normalizedTerm.includes(cleanWord) ||
+                    cleanWord.includes(normalizedTerm)
+                );
+            })
+        ) {
+            group.forEach(term => {
+                terms.add(normalizeText(term));
+            });
+        }
+    });
+
+    return [...terms].filter(Boolean);
+}
+
+function calculateSearchScore(item, queryWords) {
+    if (!queryWords.length) {
+        return 0;
+    }
+
+    const title = normalizeText(item.title || "");
+    const type = normalizeText(item.type || "");
+    const fullText = getAllItemText(item);
+
+    const titleWords = title.split(" ").filter(Boolean);
+    const fullWords = fullText.split(" ").filter(Boolean);
+
+    let score = 0;
+    let matchedWords = 0;
+
+    queryWords.forEach(queryWord => {
+        const cleanQuery = normalizeText(queryWord);
+
+        if (!cleanQuery) {
+            return;
+        }
+
+        const relatedTerms = getRelatedTerms(cleanQuery);
+
+        let bestScore = 0;
+
+        relatedTerms.forEach(term => {
+            if (!term) return;
+
+            if (title === term) {
+                bestScore = Math.max(bestScore, 100);
+            }
+
+            if (title.includes(term)) {
+                bestScore = Math.max(bestScore, 80);
+            }
+
+            if (type.includes(term)) {
+                bestScore = Math.max(bestScore, 50);
+            }
+
+            if (fullText.includes(term)) {
+                bestScore = Math.max(bestScore, 35);
+            }
+
+            titleWords.forEach(titleWord => {
+                if (
+                    titleWord.startsWith(term) ||
+                    term.startsWith(titleWord)
+                ) {
+                    bestScore = Math.max(bestScore, 65);
+                }
+
+                if (
+                    titleWord.length >= 4 &&
+                    term.length >= 4
+                ) {
+                    const distance = levenshteinDistance(
+                        titleWord,
+                        term
+                    );
+
+                    const allowedDistance =
+                        term.length >= 8 ? 2 : 1;
+
+                    if (distance <= allowedDistance) {
+                        bestScore = Math.max(bestScore, 45);
+                    }
+                }
+            });
+
+            fullWords.forEach(fullWord => {
+                if (
+                    fullWord.startsWith(term) ||
+                    term.startsWith(fullWord)
+                ) {
+                    bestScore = Math.max(bestScore, 25);
+                }
+            });
+        });
+
+        if (bestScore > 0) {
+            matchedWords++;
+            score += bestScore;
+        }
+    });
+
+    if (matchedWords === queryWords.length) {
+        score += 100;
+    }
+
+    return score;
+}
+
+function searchCatalog(query) {
+    const cleanQuery = normalizeText(query);
+
+    if (!cleanQuery) {
+        return catalog.map(item => ({
+            item,
+            score: 0
+        }));
+    }
+
+    const queryWords = cleanQuery
+        .split(" ")
+        .filter(word => word.length > 0);
+
+    const selectedType =
+        categoryFilter?.value || "all";
+
+    const results = [];
+
+    catalog.forEach(item => {
+        const typeMatches =
+            selectedType === "all" ||
+            normalizeText(item.type) === normalizeText(selectedType);
+
+        if (!typeMatches) {
+            return;
+        }
+
+        const score = calculateSearchScore(
+            item,
+            queryWords
+        );
+
+        if (score > 0) {
+            results.push({
+                item,
+                score
+            });
+        }
+    });
+
+    results.sort((a, b) => {
+        if (b.score !== a.score) {
+            return b.score - a.score;
+        }
+
+        return normalizeText(a.item.title)
+            .localeCompare(normalizeText(b.item.title));
+    });
+
+    return results.map(result => result.item);
+}
+
 function renderCatalog(results, query = "") {
-    if (!courseGrid || !diplomaGrid) return;
+    if (!courseGrid || !diplomaGrid) {
+        return;
+    }
 
-    const maxResults = query ? 80 : 12;
+    const visibleCourses = results.filter(
+        item => item.type === "Curso"
+    );
 
-    const visibleCourses = results
-        .filter(item => item.type === "Curso")
-        .slice(0, maxResults);
-
-    const visibleDiplomas = results
-        .filter(item => item.type === "Diplomado")
-        .slice(0, maxResults);
+    const visibleDiplomas = results.filter(
+        item => item.type === "Diplomado"
+    );
 
     courseGrid.innerHTML = visibleCourses.length
         ? visibleCourses.map(createCourseCard).join("")
-        : `<div class="catalog-empty">No se encontraron cursos para esta búsqueda.</div>`;
+        : `
+            <div class="catalog-empty">
+                No se encontraron cursos relacionados con tu búsqueda.
+            </div>
+        `;
 
     diplomaGrid.innerHTML = visibleDiplomas.length
         ? visibleDiplomas.map(createDiplomaCard).join("")
-        : `<div class="catalog-empty">No se encontraron diplomados para esta búsqueda.</div>`;
+        : `
+            <div class="catalog-empty">
+                No se encontraron diplomados relacionados con tu búsqueda.
+            </div>
+        `;
 
     const info = createResultsInfo();
+
     const total = results.length;
 
     if (query) {
-        const shown = visibleCourses.length + visibleDiplomas.length;
-
-        info.innerHTML = `
-            <strong>${total}</strong>
-            resultado${total === 1 ? "" : "s"}
-            encontrado${total === 1 ? "" : "s"}.
-            ${shown < total ? `Mostrando ${shown}.` : ""}
-        `;
+        info.innerHTML = total
+            ? `
+                <strong>${total}</strong>
+                resultado${total === 1 ? "" : "s"}
+                relacionado${total === 1 ? "" : "s"} con
+                "<strong>${escapeHTML(query)}</strong>".
+            `
+            : `
+                No se encontraron resultados relacionados con
+                "<strong>${escapeHTML(query)}</strong>".
+            `;
     } else {
         info.innerHTML = `
             Catálogo cargado:
             <strong>${catalog.length}</strong>
             registros.
-            Escribe el nombre o una palabra clave para buscar.
+            Escribe cualquier palabra para buscar cursos y diplomados relacionados.
         `;
     }
 
@@ -203,38 +722,30 @@ function renderCatalog(results, query = "") {
 function filterCatalog() {
     const rawQuery = searchInput?.value || "";
     const query = normalizeText(rawQuery);
-    const queryWords = query.split(" ").filter(Boolean);
-    const selectedType = categoryFilter?.value || "all";
 
-    currentResults = catalog.filter(item => {
-        const typeMatches =
-            selectedType === "all" ||
-            normalizeText(item.type) === normalizeText(selectedType);
+    currentResults = searchCatalog(query);
 
-        const searchable =
-            normalizeText(`${item.title} ${item.type}`);
-
-        const searchMatches =
-            queryWords.length === 0 ||
-            queryWords.every(word => searchable.includes(word));
-
-        return typeMatches && searchMatches;
-    });
-
-    renderCatalog(currentResults, query);
+    renderCatalog(
+        currentResults,
+        rawQuery.trim()
+    );
 
     return currentResults;
 }
 
 function goToResults() {
-    const results = filterCatalog();
+    const query = searchInput?.value.trim() || "";
 
-    if (!searchInput || !searchInput.value.trim()) {
+    if (!query) {
+        filterCatalog();
         return;
     }
 
+    const results = filterCatalog();
+
     setTimeout(() => {
-        const firstResult = document.querySelector(".catalog-card");
+        const firstResult =
+            document.querySelector(".catalog-card");
 
         if (firstResult) {
             firstResult.scrollIntoView({
@@ -247,11 +758,16 @@ function goToResults() {
                 block: "start"
             });
         }
-    }, 150);
+    }, 200);
 }
 
 async function loadCatalog() {
-    if (!searchInput || !categoryFilter || !courseGrid || !diplomaGrid) {
+    if (
+        !searchInput ||
+        !categoryFilter ||
+        !courseGrid ||
+        !diplomaGrid
+    ) {
         return;
     }
 
@@ -266,52 +782,97 @@ async function loadCatalog() {
 
         catalog = await response.json();
 
-        const uniqueTypes = [
-            ...new Set(catalog.map(item => item.type))
-        ];
+        catalog = catalog.filter(item => {
+            return (
+                item &&
+                (
+                    normalizeText(item.type) === "curso" ||
+                    normalizeText(item.type) === "diplomado"
+                )
+            );
+        });
 
         categoryFilter.innerHTML = `
             <option value="all">Todos los programas</option>
-            ${uniqueTypes.map(type => `
-                <option value="${type}">${type}s</option>
-            `).join("")}
+            <option value="Curso">Cursos</option>
+            <option value="Diplomado">Diplomados</option>
         `;
 
         filterCatalog();
 
     } catch (error) {
-        console.error("No se pudo cargar catalogo.json:", error);
+        console.error(
+            "No se pudo cargar catalogo.json:",
+            error
+        );
 
         createResultsInfo().innerHTML =
             "No se pudo cargar el catálogo. Verifica que catalogo.json esté en la misma carpeta que index.html.";
 
         courseGrid.innerHTML =
-            `<div class="catalog-empty">Error al cargar los cursos.</div>`;
+            `
+                <div class="catalog-empty">
+                    Error al cargar los cursos.
+                </div>
+            `;
 
         diplomaGrid.innerHTML =
-            `<div class="catalog-empty">Error al cargar los diplomados.</div>`;
+            `
+                <div class="catalog-empty">
+                    Error al cargar los diplomados.
+                </div>
+            `;
     }
 }
 
-searchInput?.addEventListener("input", filterCatalog);
-
-searchInput?.addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        goToResults();
+searchInput?.addEventListener(
+    "input",
+    () => {
+        filterCatalog();
     }
-});
+);
 
-categoryFilter?.addEventListener("change", filterCatalog);
+searchInput?.addEventListener(
+    "keydown",
+    function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
 
-const categoryCards = document.querySelectorAll(".category-card");
+            goToResults();
+        }
+    }
+);
+
+categoryFilter?.addEventListener(
+    "change",
+    () => {
+        filterCatalog();
+
+        setTimeout(() => {
+            document.getElementById("cursos")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }, 100);
+    }
+);
+
+const categoryCards =
+    document.querySelectorAll(".category-card");
 
 categoryCards.forEach(categoryCard => {
     categoryCard.addEventListener("click", () => {
-        const category = categoryCard.dataset.category || "";
+        const category =
+            categoryCard.dataset.category || "";
+
+        const categoryText =
+            category
+                .replace(/_/g, " ")
+                .replace(/-/g, " ")
+                .trim();
 
         if (searchInput) {
-            searchInput.value = category.replace("_", " ");
+            searchInput.value = categoryText;
         }
 
         if (categoryFilter) {
@@ -321,7 +882,8 @@ categoryCards.forEach(categoryCard => {
         filterCatalog();
 
         document.getElementById("cursos")?.scrollIntoView({
-            behavior: "smooth"
+            behavior: "smooth",
+            block: "start"
         });
 
         categoryCards.forEach(card => {
@@ -332,10 +894,13 @@ categoryCards.forEach(categoryCard => {
     });
 });
 
-const backToTop = document.getElementById("backToTop");
+const backToTop =
+    document.getElementById("backToTop");
 
 window.addEventListener("scroll", () => {
-    if (!backToTop) return;
+    if (!backToTop) {
+        return;
+    }
 
     if (window.scrollY > 500) {
         backToTop.classList.add("show");
@@ -354,14 +919,16 @@ backToTop?.addEventListener("click", () => {
 let observer;
 
 function activateAnimations() {
-    const animatedElements = document.querySelectorAll(
-        ".course-card, .diploma-card, .why-card, .process-step, .contact-card"
-    );
+    const animatedElements =
+        document.querySelectorAll(
+            ".course-card, .diploma-card, .why-card, .process-step, .contact-card"
+        );
 
     if (!("IntersectionObserver" in window)) {
         animatedElements.forEach(element => {
             element.style.opacity = "1";
-            element.style.transform = "translateY(0)";
+            element.style.transform =
+                "translateY(0)";
         });
 
         return;
@@ -369,22 +936,31 @@ function activateAnimations() {
 
     observer?.disconnect();
 
-    observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
+    observer =
+        new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform =
+                            "translateY(0)";
 
-                observer.unobserve(entry.target);
+                        observer.unobserve(
+                            entry.target
+                        );
+                    }
+                });
+            },
+            {
+                threshold: 0.1
             }
-        });
-    }, {
-        threshold: 0.1
-    });
+        );
 
     animatedElements.forEach(element => {
         element.style.opacity = "0";
-        element.style.transform = "translateY(25px)";
+        element.style.transform =
+            "translateY(25px)";
+
         element.style.transition =
             "opacity 0.6s ease, transform 0.6s ease";
 
@@ -392,7 +968,8 @@ function activateAnimations() {
     });
 }
 
-const catalogStyles = document.createElement("style");
+const catalogStyles =
+    document.createElement("style");
 
 catalogStyles.textContent = `
     #searchResultsInfo {
@@ -413,9 +990,12 @@ catalogStyles.textContent = `
     .catalog-card h3 {
         overflow-wrap: anywhere;
     }
+
+    .catalog-card {
+        scroll-margin-top: 100px;
+    }
 `;
 
 document.head.appendChild(catalogStyles);
 
 loadCatalog();
-```
