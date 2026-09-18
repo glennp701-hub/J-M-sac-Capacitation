@@ -1,7 +1,4 @@
-/* ==========================================
-   MENÚ RESPONSIVE
-========================================== */
-
+```javascript
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
@@ -12,17 +9,12 @@ if (menuToggle && navMenu) {
 }
 
 const navLinks = document.querySelectorAll(".nav a");
+
 navLinks.forEach(link => {
     link.addEventListener("click", () => {
         navMenu?.classList.remove("active");
     });
 });
-
-/* ==========================================
-   CATÁLOGO COMPLETO Y BUSCADOR
-   Lee catalogo.json, generado desde el archivo
-   proporcionado por el usuario.
-========================================== */
 
 const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("categoryFilter");
@@ -55,40 +47,56 @@ function getIcon(title, type) {
     if (type === "Diplomado") return "🎓";
 
     const text = normalizeText(title);
+
     if (/enferm|salud|farmac|pediatr|hospital|uci|clin|quirurg|emergenc|medic|nutric|laboratorio/.test(text)) return "🏥";
     if (/informat|software|sistema|redes|tecnolog|comput|linux|digital/.test(text)) return "💻";
     if (/marketing|ventas|cliente|publicidad|comunicacion/.test(text)) return "📱";
     if (/educacion|docente|enseñanza|aprendizaje|pedagog/.test(text)) return "📚";
+
     return "🎯";
 }
 
 function whatsappURL(title, type) {
     const label = type === "Diplomado" ? "Diplomado" : "Curso";
     const message = `Hola J&M S.A.C., quiero información sobre el ${label}: ${title}.`;
+
     return `https://wa.me/51934995434?text=${encodeURIComponent(message)}`;
 }
 
 function createCourseCard(item) {
     const title = escapeHTML(item.title);
     const icon = getIcon(item.title, item.type);
-    const typeLabel = item.type === "Diplomado" ? "Diplomado" : "Curso";
 
     return `
         <article class="course-card catalog-card" data-title="${escapeHTML(normalizeText(item.title))}">
-            <div class="course-image ${item.type === "Diplomado" ? "management" : "health"}">
+            <div class="course-image health">
                 ${icon}
             </div>
+
             <div class="course-content">
-                <span class="course-category">${typeLabel}</span>
+                <span class="course-category">Curso</span>
+
                 <h3>${title}</h3>
-                <p>Programa disponible en el catálogo de J&M S.A.C. Consulta modalidad, duración, certificación y matrícula.</p>
+
+                <p>
+                    Programa disponible en el catálogo de J&M S.A.C.
+                    Consulta modalidad, duración, certificación y matrícula.
+                </p>
+
                 <div class="course-info">
                     <span>📚 Capacitación</span>
                     <span>📜 Certificación</span>
                 </div>
+
                 <div class="course-bottom">
                     <strong>Consultar</strong>
-                    <a href="${whatsappURL(item.title, item.type)}" target="_blank" rel="noopener noreferrer" class="course-button">
+
+                    <a
+                        href="${whatsappURL(item.title, item.type)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="course-button"
+                    >
                         Ver información
                     </a>
                 </div>
@@ -99,19 +107,33 @@ function createCourseCard(item) {
 
 function createDiplomaCard(item) {
     const title = escapeHTML(item.title);
+
     return `
-        <article class="diploma-card catalog-card">
+        <article class="diploma-card catalog-card" data-title="${escapeHTML(normalizeText(item.title))}">
             <div class="diploma-icon">🎓</div>
+
             <div>
                 <span>DIPLOMADO</span>
+
                 <h3>${title}</h3>
-                <p>Programa disponible en el catálogo. Solicita información completa por WhatsApp.</p>
+
+                <p>
+                    Programa disponible en el catálogo.
+                    Solicita información completa por WhatsApp.
+                </p>
+
                 <div class="diploma-details">
                     <span>📚 Capacitación</span>
                     <span>📜 Certificación</span>
                 </div>
             </div>
-            <a href="${whatsappURL(item.title, item.type)}" target="_blank" rel="noopener noreferrer" class="diploma-button">
+
+            <a
+                href="${whatsappURL(item.title, item.type)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="diploma-button"
+            >
                 Más información
             </a>
         </article>
@@ -120,11 +142,16 @@ function createDiplomaCard(item) {
 
 function createResultsInfo() {
     let element = document.getElementById("searchResultsInfo");
+
     if (!element) {
         element = document.createElement("div");
         element.id = "searchResultsInfo";
-        if (searchBox) searchBox.appendChild(element);
+
+        if (searchBox) {
+            searchBox.appendChild(element);
+        }
     }
+
     return element;
 }
 
@@ -132,8 +159,14 @@ function renderCatalog(results, query = "") {
     if (!courseGrid || !diplomaGrid) return;
 
     const maxResults = query ? 80 : 12;
-    const visibleCourses = results.filter(item => item.type === "Curso").slice(0, maxResults);
-    const visibleDiplomas = results.filter(item => item.type === "Diplomado").slice(0, maxResults);
+
+    const visibleCourses = results
+        .filter(item => item.type === "Curso")
+        .slice(0, maxResults);
+
+    const visibleDiplomas = results
+        .filter(item => item.type === "Diplomado")
+        .slice(0, maxResults);
 
     courseGrid.innerHTML = visibleCourses.length
         ? visibleCourses.map(createCourseCard).join("")
@@ -149,9 +182,19 @@ function renderCatalog(results, query = "") {
     if (query) {
         const shown = visibleCourses.length + visibleDiplomas.length;
 
-        info.innerHTML = `<strong>${total}</strong> resultado${total === 1 ? "" : "s"} encontrado${total === 1 ? "" : "s"}. ${shown < total ? `Mostrando ${shown}.` : ""}`;
+        info.innerHTML = `
+            <strong>${total}</strong>
+            resultado${total === 1 ? "" : "s"}
+            encontrado${total === 1 ? "" : "s"}.
+            ${shown < total ? `Mostrando ${shown}.` : ""}
+        `;
     } else {
-        info.innerHTML = `Catálogo cargado: <strong>${catalog.length}</strong> registros. Escribe el nombre o una palabra clave para buscar.`;
+        info.innerHTML = `
+            Catálogo cargado:
+            <strong>${catalog.length}</strong>
+            registros.
+            Escribe el nombre o una palabra clave para buscar.
+        `;
     }
 
     activateAnimations();
@@ -164,21 +207,58 @@ function filterCatalog() {
     const selectedType = categoryFilter?.value || "all";
 
     currentResults = catalog.filter(item => {
-        const typeMatches = selectedType === "all" || normalizeText(item.type) === normalizeText(selectedType);
-        const searchable = normalizeText(`${item.title} ${item.type}`);
-        const searchMatches = queryWords.length === 0 || queryWords.every(word => searchable.includes(word));
+        const typeMatches =
+            selectedType === "all" ||
+            normalizeText(item.type) === normalizeText(selectedType);
+
+        const searchable =
+            normalizeText(`${item.title} ${item.type}`);
+
+        const searchMatches =
+            queryWords.length === 0 ||
+            queryWords.every(word => searchable.includes(word));
 
         return typeMatches && searchMatches;
     });
 
     renderCatalog(currentResults, query);
+
+    return currentResults;
+}
+
+function goToResults() {
+    const results = filterCatalog();
+
+    if (!searchInput || !searchInput.value.trim()) {
+        return;
+    }
+
+    setTimeout(() => {
+        const firstResult = document.querySelector(".catalog-card");
+
+        if (firstResult) {
+            firstResult.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        } else {
+            document.getElementById("cursos")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    }, 150);
 }
 
 async function loadCatalog() {
-    if (!searchInput || !categoryFilter || !courseGrid || !diplomaGrid) return;
+    if (!searchInput || !categoryFilter || !courseGrid || !diplomaGrid) {
+        return;
+    }
 
     try {
-        const response = await fetch("catalogo.json", { cache: "no-store" });
+        const response = await fetch("catalogo.json", {
+            cache: "no-store"
+        });
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
@@ -186,11 +266,15 @@ async function loadCatalog() {
 
         catalog = await response.json();
 
-        const uniqueTypes = [...new Set(catalog.map(item => item.type))];
+        const uniqueTypes = [
+            ...new Set(catalog.map(item => item.type))
+        ];
 
         categoryFilter.innerHTML = `
             <option value="all">Todos los programas</option>
-            ${uniqueTypes.map(type => `<option value="${type}">${type}s</option>`).join("")}
+            ${uniqueTypes.map(type => `
+                <option value="${type}">${type}s</option>
+            `).join("")}
         `;
 
         filterCatalog();
@@ -210,19 +294,20 @@ async function loadCatalog() {
 }
 
 searchInput?.addEventListener("input", filterCatalog);
+
+searchInput?.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        goToResults();
+    }
+});
+
 categoryFilter?.addEventListener("change", filterCatalog);
-
-
-/* ==========================================
-   FILTRAR DESDE LAS CATEGORÍAS DE LA PORTADA
-========================================== */
 
 const categoryCards = document.querySelectorAll(".category-card");
 
 categoryCards.forEach(categoryCard => {
-
     categoryCard.addEventListener("click", () => {
-
         const category = categoryCard.dataset.category || "";
 
         if (searchInput) {
@@ -239,22 +324,17 @@ categoryCards.forEach(categoryCard => {
             behavior: "smooth"
         });
 
-        categoryCards.forEach(card => card.classList.remove("active"));
+        categoryCards.forEach(card => {
+            card.classList.remove("active");
+        });
 
         categoryCard.classList.add("active");
     });
-
 });
-
-
-/* ==========================================
-   BOTÓN VOLVER ARRIBA
-========================================== */
 
 const backToTop = document.getElementById("backToTop");
 
 window.addEventListener("scroll", () => {
-
     if (!backToTop) return;
 
     if (window.scrollY > 500) {
@@ -262,33 +342,23 @@ window.addEventListener("scroll", () => {
     } else {
         backToTop.classList.remove("show");
     }
-
 });
 
 backToTop?.addEventListener("click", () => {
-
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
-
 });
-
-
-/* ==========================================
-   ANIMACIÓN DE ELEMENTOS
-========================================== */
 
 let observer;
 
 function activateAnimations() {
-
     const animatedElements = document.querySelectorAll(
         ".course-card, .diploma-card, .why-card, .process-step, .contact-card"
     );
 
     if (!("IntersectionObserver" in window)) {
-
         animatedElements.forEach(element => {
             element.style.opacity = "1";
             element.style.transform = "translateY(0)";
@@ -300,25 +370,19 @@ function activateAnimations() {
     observer?.disconnect();
 
     observer = new IntersectionObserver(entries => {
-
         entries.forEach(entry => {
-
             if (entry.isIntersecting) {
-
                 entry.target.style.opacity = "1";
                 entry.target.style.transform = "translateY(0)";
 
                 observer.unobserve(entry.target);
             }
-
         });
-
     }, {
         threshold: 0.1
     });
 
     animatedElements.forEach(element => {
-
         element.style.opacity = "0";
         element.style.transform = "translateY(25px)";
         element.style.transition =
@@ -326,19 +390,11 @@ function activateAnimations() {
 
         observer.observe(element);
     });
-
 }
-
-
-/* ==========================================
-   ESTILOS ADICIONALES PARA EL BUSCADOR
-   Y RESULTADOS
-========================================== */
 
 const catalogStyles = document.createElement("style");
 
 catalogStyles.textContent = `
-
     #searchResultsInfo {
         width: 100%;
         margin-top: 15px;
@@ -357,14 +413,9 @@ catalogStyles.textContent = `
     .catalog-card h3 {
         overflow-wrap: anywhere;
     }
-
 `;
 
 document.head.appendChild(catalogStyles);
 
-
-/* ==========================================
-   INICIAR CATÁLOGO
-========================================== */
-
 loadCatalog();
+```
