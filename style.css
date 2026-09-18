@@ -40,7 +40,7 @@ select {
 
 header {
     width: 100%;
-    background: #ffffff;
+    background: #fff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     position: relative;
     z-index: 1000;
@@ -66,6 +66,7 @@ header {
 }
 
 .logo img {
+    width: auto;
     max-width: 170px;
     max-height: 60px;
     object-fit: contain;
@@ -128,28 +129,28 @@ header {
 
 .search-section {
     width: 100%;
-    padding: 25px 15px;
+    padding: 30px 20px;
     background: #fff;
 }
 
 .search-container {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1150px;
     margin: 0 auto;
 }
 
 .search-form {
     width: 100%;
-    display: flex;
-    align-items: stretch;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 230px 120px;
+    gap: 12px;
+    align-items: center;
 }
 
 .search-input {
-    flex: 1;
-    min-width: 0;
-    height: 48px;
-    padding: 0 15px;
+    width: 100%;
+    height: 50px;
+    padding: 0 16px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -163,8 +164,8 @@ header {
 }
 
 .search-category {
-    width: 220px;
-    height: 48px;
+    width: 100%;
+    height: 50px;
     padding: 0 12px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -178,8 +179,9 @@ header {
 }
 
 .search-button {
-    height: 48px;
-    padding: 0 22px;
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
     border: none;
     border-radius: 8px;
     background: #0b63ce;
@@ -187,7 +189,6 @@ header {
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    white-space: nowrap;
     transition: 0.3s;
 }
 
@@ -196,18 +197,17 @@ header {
 }
 
 #searchResultsInfo {
+    display: block;
     width: 100%;
-    margin-top: 15px;
-    padding: 10px 12px;
+    margin: 15px 0 0;
+    padding: 10px 15px;
     text-align: center;
     font-size: 14px;
-    line-height: 1.4;
-    box-sizing: border-box;
-    position: static;
-    clear: both;
+    line-height: 1.5;
     color: #555;
     background: #f5f7fa;
-    border-radius: 6px;
+    border-radius: 8px;
+    clear: both;
 }
 
 .catalog-section {
@@ -261,6 +261,7 @@ header {
     margin-bottom: 12px;
     color: #222;
     overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .catalog-card p,
@@ -270,6 +271,7 @@ header {
     line-height: 1.6;
     color: #555;
     overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .catalog-card button,
@@ -483,27 +485,28 @@ footer {
     display: none !important;
 }
 
-@media (max-width: 1000px) {
-    .catalog-grid,
-    .course-grid,
-    .diploma-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .navbar {
-        padding: 10px 15px;
+@media (max-width: 1050px) {
+    .search-form {
+        grid-template-columns: minmax(0, 1fr) 200px 110px;
     }
 
     .nav-menu {
         gap: 15px;
     }
 
-    .hero h1 {
-        font-size: 36px;
+    .catalog-grid,
+    .course-grid,
+    .diploma-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 800px) {
+    .navbar {
+        min-height: 70px;
+        padding: 10px 15px;
+    }
+
     .menu-toggle {
         display: block;
     }
@@ -555,32 +558,38 @@ footer {
     }
 
     .search-section {
-        padding: 15px 12px;
+        padding: 20px 12px 25px;
     }
 
     .search-container {
         width: 100%;
+        max-width: 100%;
     }
 
     .search-form {
+        width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
     }
 
     .search-input,
     .search-category,
     .search-button {
         width: 100%;
-        height: 48px;
+        min-width: 0;
+        height: 50px;
         flex: none;
+        margin: 0;
     }
 
     #searchResultsInfo {
-        margin-top: 12px;
-        padding: 8px 10px;
+        position: relative;
+        width: 100%;
+        margin: 14px 0 0;
+        padding: 10px;
         font-size: 13px;
-        position: static;
+        line-height: 1.5;
     }
 
     .catalog-section,
@@ -673,19 +682,24 @@ footer {
     }
 
     .search-section {
-        padding: 12px 10px;
+        padding: 18px 10px 22px;
+    }
+
+    .search-form {
+        gap: 10px;
     }
 
     .search-input,
     .search-category,
     .search-button {
-        height: 46px;
+        width: 100%;
+        height: 48px;
         font-size: 15px;
     }
 
     #searchResultsInfo {
-        margin-top: 10px;
-        padding: 8px;
+        margin-top: 12px;
+        padding: 9px;
         font-size: 12px;
     }
 
@@ -725,14 +739,23 @@ footer {
         font-size: 24px;
     }
 
+    .hero p {
+        font-size: 14px;
+    }
+
+    .search-section {
+        padding: 15px 8px 20px;
+    }
+
     .search-input,
     .search-category,
     .search-button {
-        height: 44px;
+        height: 46px;
         font-size: 14px;
     }
 
     #searchResultsInfo {
         font-size: 11px;
+        padding: 8px;
     }
 }
