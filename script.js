@@ -145,8 +145,10 @@ function renderCatalog(results, query = "") {
 
     const info = createResultsInfo();
     const total = results.length;
+
     if (query) {
         const shown = visibleCourses.length + visibleDiplomas.length;
+
         info.innerHTML = `<strong>${total}</strong> resultado${total === 1 ? "" : "s"} encontrado${total === 1 ? "" : "s"}. ${shown < total ? `Mostrando ${shown}.` : ""}`;
     } else {
         info.innerHTML = `Catálogo cargado: <strong>${catalog.length}</strong> registros. Escribe el nombre o una palabra clave para buscar.`;
@@ -165,6 +167,7 @@ function filterCatalog() {
         const typeMatches = selectedType === "all" || normalizeText(item.type) === normalizeText(selectedType);
         const searchable = normalizeText(`${item.title} ${item.type}`);
         const searchMatches = queryWords.length === 0 || queryWords.every(word => searchable.includes(word));
+
         return typeMatches && searchMatches;
     });
 
@@ -176,37 +179,60 @@ async function loadCatalog() {
 
     try {
         const response = await fetch("catalogo.json", { cache: "no-store" });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
         catalog = await response.json();
 
         const uniqueTypes = [...new Set(catalog.map(item => item.type))];
+
         categoryFilter.innerHTML = `
             <option value="all">Todos los programas</option>
             ${uniqueTypes.map(type => `<option value="${type}">${type}s</option>`).join("")}
         `;
 
         filterCatalog();
+
     } catch (error) {
         console.error("No se pudo cargar catalogo.json:", error);
-        createResultsInfo().innerHTML = "No se pudo cargar el catálogo. Verifica que catalogo.json esté en la misma carpeta que index.html.";
-        courseGrid.innerHTML = `<div class="catalog-empty">Error al cargar los cursos.</div>`;
-        diplomaGrid.innerHTML = `<div class="catalog-empty">Error al cargar los diplomados.</div>`;
+
+        createResultsInfo().innerHTML =
+            "No se pudo cargar el catálogo. Verifica que catalogo.json esté en la misma carpeta que index.html.";
+
+        courseGrid.innerHTML =
+            `<div class="catalog-empty">Error al cargar los cursos.</div>`;
+
+        diplomaGrid.innerHTML =
+            `<div class="catalog-empty">Error al cargar los diplomados.</div>`;
     }
 }
 
 searchInput?.addEventListener("input", filterCatalog);
 categoryFilter?.addEventListener("change", filterCatalog);
 
+
 /* ==========================================
    FILTRAR DESDE LAS CATEGORÍAS DE LA PORTADA
 ========================================== */
 
 const categoryCards = document.querySelectorAll(".category-card");
+
 categoryCards.forEach(categoryCard => {
+
     categoryCard.addEventListener("click", () => {
+
         const category = categoryCard.dataset.category || "";
-        if (searchInput) searchInput.value = category.replace("_", " ");
-        if (categoryFilter) categoryFilter.value = "all";
+
+        if (searchInput) {
+            searchInput.value = category.replace("_", " ");
+        }
+
+        if (categoryFilter) {
+            categoryFilter.value = "all";
+        }
+
         filterCatalog();
 
         document.getElementById("cursos")?.scrollIntoView({
@@ -214,71 +240,112 @@ categoryCards.forEach(categoryCard => {
         });
 
         categoryCards.forEach(card => card.classList.remove("active"));
+
         categoryCard.classList.add("active");
     });
+
 });
+
 
 /* ==========================================
    BOTÓN VOLVER ARRIBA
 ========================================== */
 
 const backToTop = document.getElementById("backToTop");
+
 window.addEventListener("scroll", () => {
+
     if (!backToTop) return;
-    if (window.scrollY > 500) backToTop.classList.add("show");
-    else backToTop.classList.remove("show");
+
+    if (window.scrollY > 500) {
+        backToTop.classList.add("show");
+    } else {
+        backToTop.classList.remove("show");
+    }
+
 });
 
 backToTop?.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
 });
+
 
 /* ==========================================
    ANIMACIÓN DE ELEMENTOS
 ========================================== */
 
 let observer;
+
 function activateAnimations() {
+
     const animatedElements = document.querySelectorAll(
         ".course-card, .diploma-card, .why-card, .process-step, .contact-card"
     );
 
     if (!("IntersectionObserver" in window)) {
+
         animatedElements.forEach(element => {
             element.style.opacity = "1";
             element.style.transform = "translateY(0)";
         });
+
         return;
     }
 
     observer?.disconnect();
+
     observer = new IntersectionObserver(entries => {
+
         entries.forEach(entry => {
+
             if (entry.isIntersecting) {
+
                 entry.target.style.opacity = "1";
                 entry.target.style.transform = "translateY(0)";
+
                 observer.unobserve(entry.target);
             }
+
         });
-    }, { threshold: 0.1 });
+
+    }, {
+        threshold: 0.1
+    });
 
     animatedElements.forEach(element => {
+
         element.style.opacity = "0";
         element.style.transform = "translateY(25px)";
-        element.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        element.style.transition =
+            "opacity 0.6s ease, transform 0.6s ease";
+
         observer.observe(element);
     });
+
 }
 
-/* Estilos adicionales para el buscador y resultados */
+
+/* ==========================================
+   ESTILOS ADICIONALES PARA EL BUSCADOR
+   Y RESULTADOS
+========================================== */
+
 const catalogStyles = document.createElement("style");
+
 catalogStyles.textContent = `
+
     #searchResultsInfo {
         width: 100%;
         margin-top: 15px;
         font-size: 14px;
         opacity: .85;
     }
+
     .catalog-empty {
         grid-column: 1 / -1;
         padding: 30px;
@@ -286,10 +353,18 @@ catalogStyles.textContent = `
         border-radius: 14px;
         background: rgba(0,0,0,.04);
     }
+
     .catalog-card h3 {
         overflow-wrap: anywhere;
     }
+
 `;
+
 document.head.appendChild(catalogStyles);
+
+
+/* ==========================================
+   INICIAR CATÁLOGO
+========================================== */
 
 loadCatalog();
