@@ -24,6 +24,9 @@ const searchBox = document.querySelector(".search-box");
 let catalog = [];
 let currentResults = [];
 
+const HOME_COURSES_LIMIT = 6;
+const HOME_DIPLOMAS_LIMIT = 6;
+
 function normalizeText(value = "") {
     return String(value)
         .normalize("NFD")
@@ -612,10 +615,10 @@ function calculateSearchScore(item, queryWords) {
 function searchCatalog(query) {
     const cleanQuery = normalizeText(query);
 
-    if (!cleanQuery) {
-        const selectedType =
-            categoryFilter?.value || "all";
+    const selectedType =
+        categoryFilter?.value || "all";
 
+    if (!cleanQuery) {
         return catalog.filter(item => {
             return (
                 selectedType === "all" ||
@@ -627,9 +630,6 @@ function searchCatalog(query) {
     const queryWords = cleanQuery
         .split(" ")
         .filter(word => word.length > 0);
-
-    const selectedType =
-        categoryFilter?.value || "all";
 
     const results = [];
 
@@ -667,16 +667,66 @@ function searchCatalog(query) {
     return results.map(result => result.item);
 }
 
+/* ==========================================
+   SOLO 6 CURSOS Y 6 DIPLOMADOS EN INICIO
+========================================== */
+
+function getHomeCatalog() {
+    const selectedType =
+        categoryFilter?.value || "all";
+
+    let courses = catalog.filter(
+        item => normalizeText(item.type) === "curso"
+    );
+
+    let diplomas = catalog.filter(
+        item => normalizeText(item.type) === "diplomado"
+    );
+
+    if (selectedType === "Curso") {
+        return [
+            ...courses.slice(0, HOME_COURSES_LIMIT)
+        ];
+    }
+
+    if (selectedType === "Diplomado") {
+        return [
+            ...diplomas.slice(0, HOME_DIPLOMAS_LIMIT)
+        ];
+    }
+
+    return [
+        ...courses.slice(0, HOME_COURSES_LIMIT),
+        ...diplomas.slice(0, HOME_DIPLOMAS_LIMIT)
+    ];
+}
+
 function renderCatalog(results, query = "") {
     if (!courseGrid || !diplomaGrid) {
         return;
     }
 
-    const visibleCourses = results.filter(
+    const hasSearch =
+        normalizeText(query).length > 0;
+
+    let displayResults = results;
+
+    /*
+     * SIN BÚSQUEDA:
+     * Solo mostramos 6 cursos y 6 diplomados.
+     *
+     * CON BÚSQUEDA:
+     * Mostramos TODOS los resultados encontrados.
+     */
+    if (!hasSearch) {
+        displayResults = getHomeCatalog();
+    }
+
+    const visibleCourses = displayResults.filter(
         item => normalizeText(item.type) === "curso"
     );
 
-    const visibleDiplomas = results.filter(
+    const visibleDiplomas = displayResults.filter(
         item => normalizeText(item.type) === "diplomado"
     );
 
@@ -698,9 +748,9 @@ function renderCatalog(results, query = "") {
 
     const info = createResultsInfo();
 
-    const total = results.length;
+    if (hasSearch) {
+        const total = displayResults.length;
 
-    if (query) {
         info.innerHTML = total
             ? `
                 <strong>${total}</strong>
@@ -714,7 +764,8 @@ function renderCatalog(results, query = "") {
             `;
     } else {
         info.innerHTML = `
-            Catálogo: <strong>${catalog.length}</strong> registros
+            Mostrando <strong>6 cursos</strong> y
+            <strong>6 diplomados</strong> destacados.
         `;
     }
 
