@@ -1,3 +1,4 @@
+```css
 * {
     margin: 0;
     padding: 0;
@@ -194,10 +195,12 @@ header {
 
 .search-button:hover {
     background: #084f9f;
+    transform: translateY(-2px);
 }
 
 #searchResultsInfo {
     display: block;
+    position: relative;
     width: 100%;
     margin: 15px 0 0;
     padding: 10px 15px;
@@ -208,6 +211,7 @@ header {
     background: #f5f7fa;
     border-radius: 8px;
     clear: both;
+    overflow: hidden;
 }
 
 .catalog-section {
@@ -287,12 +291,14 @@ header {
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .catalog-card button:hover,
 .course-card button:hover,
 .diploma-card button:hover {
     background: #084f9f;
+    transform: translateY(-2px);
 }
 
 .catalog-empty {
@@ -450,6 +456,7 @@ footer {
     font-size: 15px;
     font-weight: 700;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
 }
 
 .whatsapp-float:hover {
@@ -570,12 +577,14 @@ footer {
         width: 100%;
         display: flex;
         flex-direction: column;
+        align-items: stretch;
         gap: 12px;
     }
 
     .search-input,
     .search-category,
     .search-button {
+        display: block;
         width: 100%;
         min-width: 0;
         height: 50px;
@@ -584,12 +593,15 @@ footer {
     }
 
     #searchResultsInfo {
-        position: relative;
+        display: block;
+        position: static;
         width: 100%;
+        min-height: 0;
         margin: 14px 0 0;
         padding: 10px;
         font-size: 13px;
         line-height: 1.5;
+        clear: both;
     }
 
     .catalog-section,
@@ -698,9 +710,13 @@ footer {
     }
 
     #searchResultsInfo {
-        margin-top: 12px;
+        display: block;
+        position: static;
+        width: 100%;
+        margin: 12px 0 0;
         padding: 9px;
         font-size: 12px;
+        line-height: 1.5;
     }
 
     .catalog-section h2 {
@@ -759,3 +775,4 @@ footer {
         padding: 8px;
     }
 }
+```
