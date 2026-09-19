@@ -39,7 +39,7 @@ function escapeHTML(value = "") {
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
+        .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
 
@@ -613,10 +613,15 @@ function searchCatalog(query) {
     const cleanQuery = normalizeText(query);
 
     if (!cleanQuery) {
-        return catalog.map(item => ({
-            item,
-            score: 0
-        }));
+        const selectedType =
+            categoryFilter?.value || "all";
+
+        return catalog.filter(item => {
+            return (
+                selectedType === "all" ||
+                normalizeText(item.type) === normalizeText(selectedType)
+            );
+        });
     }
 
     const queryWords = cleanQuery
@@ -668,11 +673,11 @@ function renderCatalog(results, query = "") {
     }
 
     const visibleCourses = results.filter(
-        item => item.type === "Curso"
+        item => normalizeText(item.type) === "curso"
     );
 
     const visibleDiplomas = results.filter(
-        item => item.type === "Diplomado"
+        item => normalizeText(item.type) === "diplomado"
     );
 
     courseGrid.innerHTML = visibleCourses.length
@@ -709,10 +714,7 @@ function renderCatalog(results, query = "") {
             `;
     } else {
         info.innerHTML = `
-            Catálogo cargado:
-            <strong>${catalog.length}</strong>
-            registros.
-            Escribe cualquier palabra para buscar cursos y diplomados relacionados.
+            Catálogo: <strong>${catalog.length}</strong> registros
         `;
     }
 
@@ -837,7 +839,6 @@ searchInput?.addEventListener(
     function(event) {
         if (event.key === "Enter") {
             event.preventDefault();
-
             goToResults();
         }
     }
