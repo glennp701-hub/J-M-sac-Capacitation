@@ -40,7 +40,6 @@ const SITE_IMAGE_FILES = [
     "WhatsApp Image 2026-09-19 at 7.25.08 AM (2).jpeg",
     "WhatsApp Image 2026-09-19 at 7.25.08 AM (3).jpeg",
     "WhatsApp Image 2026-09-19 at 7.25.08 AM.jpeg",
-    "WhatsApp Image 2026-09-19 at 7.25.33 AM.jpeg"
 ];
 
 const PROMOTION_IMAGE_FILE =
