@@ -26,6 +26,72 @@ let currentResults = [];
 
 const HOME_COURSES_LIMIT = 6;
 const HOME_DIPLOMAS_LIMIT = 6;
+const SITE_IMAGE_FILES = [
+    "WhatsApp Image 2026-09-19 at 7.20.10 AM (1).jpeg",
+    "WhatsApp Image 2026-09-19 at 7.20.10 AM.jpeg",
+    "WhatsApp Image 2026-09-19 at 7.20.11 AM (1).jpeg",
+    "WhatsApp Image 2026-09-19 at 7.20.11 AM (2).jpeg",
+    "WhatsApp Image 2026-09-19 at 7.20.11 AM (3).jpeg",
+    "WhatsApp Image 2026-09-19 at 7.20.11 AM (4).jpeg",
+    "WhatsApp Image 2026-09-19 at 7.20.11 AM (5).jpeg",
+    "WhatsApp Image 2026-09-19 at 7.20.11 AM.jpeg",
+    "WhatsApp Image 2026-09-19 at 7.25.08 AM (1).jpeg",
+    "WhatsApp Image 2026-09-19 at 7.25.08 AM (2).jpeg",
+    "WhatsApp Image 2026-09-19 at 7.25.08 AM (3).jpeg",
+    "WhatsApp Image 2026-09-19 at 7.25.08 AM.jpeg",
+    "WhatsApp Image 2026-09-19 at 7.25.33 AM.jpeg"
+];
+
+const PROMOTION_IMAGE_FILE =
+    "WhatsApp Image 2026-03-31 at 7.20.32 PM.jpeg";
+
+function getCatalogImage(title = "") {
+    const normalized = normalizeText(title);
+    let hash = 0;
+
+    for (let i = 0; i < normalized.length; i++) {
+        hash = (hash * 31 + normalized.charCodeAt(i)) >>> 0;
+    }
+
+    const file =
+        SITE_IMAGE_FILES[hash % SITE_IMAGE_FILES.length];
+
+    return "./" + encodeURIComponent(file);
+}
+
+function createPromotionAnnouncement() {
+    if (document.getElementById("promotionAnnouncement")) return;
+
+    const overlay = document.createElement("div");
+    overlay.id = "promotionAnnouncement";
+    overlay.innerHTML = `
+        <div class="promotion-overlay" role="dialog" aria-modal="true" aria-label="Anuncio promocional">
+            <div class="promotion-box">
+                <button class="promotion-close" type="button" aria-label="Cerrar anuncio">×</button>
+                <img
+                    src="${"./" + encodeURIComponent(PROMOTION_IMAGE_FILE)}"
+                    alt="Anuncio promocional de J&M S.A.C."
+                    class="promotion-image"
+                >
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    overlay.querySelector(".promotion-close")?.addEventListener("click", () => {
+        overlay.remove();
+    });
+
+    overlay.querySelector(".promotion-overlay")?.addEventListener("click", event => {
+        if (event.target.classList.contains("promotion-overlay")) {
+            overlay.remove();
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", createPromotionAnnouncement);
+
 
 function normalizeText(value = "") {
     return String(value)
@@ -88,8 +154,12 @@ function createCourseCard(item) {
             class="course-card catalog-card"
             data-title="${escapeHTML(normalizeText(item.title))}"
         >
-            <div class="course-image health">
-                ${icon}
+            <div class="course-image catalog-image">
+                <img
+                    src="${getCatalogImage(item.title)}"
+                    alt="${title}"
+                    loading="lazy"
+                >
             </div>
 
             <div class="course-content">
@@ -132,7 +202,13 @@ function createDiplomaCard(item) {
             class="diploma-card catalog-card"
             data-title="${escapeHTML(normalizeText(item.title))}"
         >
-            <div class="diploma-icon">🎓</div>
+            <div class="diploma-image">
+                <img
+                    src="${getCatalogImage(item.title)}"
+                    alt="${title}"
+                    loading="lazy"
+                >
+            </div>
 
             <div>
                 <span>DIPLOMADO</span>
