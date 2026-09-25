@@ -169,7 +169,7 @@ function createCourseCard(item) {
                     src="${getCatalogImage(item.title)}"
                     alt="${title}"
                     loading="lazy"
-                    onerror="this.onerror=null; this.src='./WhatsApp%20Image%202026-03-31%20at%207.20.32%20PM.jpeg';"
+                    onerror="this.onerror=null; this.src='./WhatsApp%20Image%202026-09-19%20at%207.20.10%20AM.jpeg';"
                 >
             </div>
 
