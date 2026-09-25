@@ -27,6 +27,7 @@ let currentResults = [];
 const HOME_COURSES_LIMIT = 6;
 const HOME_DIPLOMAS_LIMIT = 6;
 const SITE_IMAGE_FILES = [
+    "WhatsApp Image 2026-03-31 at 7.20.32 PM.jpeg",
     "WhatsApp Image 2026-09-19 at 7.20.10 AM (1).jpeg",
     "WhatsApp Image 2026-09-19 at 7.20.10 AM.jpeg",
     "WhatsApp Image 2026-09-19 at 7.20.11 AM (1).jpeg",
@@ -169,6 +170,7 @@ function createCourseCard(item) {
                     src="${getCatalogImage(item.title)}"
                     alt="${title}"
                     loading="lazy"
+                    onerror="this.onerror=null; this.src='./WhatsApp%20Image%202026-03-31%20at%207.20.32%20PM.jpeg';"
                 >
             </div>
 
