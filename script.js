@@ -45,6 +45,9 @@ const SITE_IMAGE_FILES = [
 const PROMOTION_IMAGE_FILE =
     "PROMOCION.jpeg";
 
+const PROMOTION_WHATSAPP_MESSAGE =
+    "Hola J&M S.A.C., quiero información sobre la promoción anunciada.";
+
 function getCatalogImage(title = "") {
     const normalized = normalizeText(title);
     let hash = 0;
@@ -68,11 +71,18 @@ function createPromotionAnnouncement() {
         <div class="promotion-overlay" role="dialog" aria-modal="true" aria-label="Anuncio promocional">
             <div class="promotion-box">
                 <button class="promotion-close" type="button" aria-label="Cerrar anuncio">×</button>
-                <img
-                    src="${"./" + encodeURIComponent(PROMOTION_IMAGE_FILE)}"
-                    alt="Anuncio promocional de J&M S.A.C."
-                    class="promotion-image"
+                <a
+                    href="https://wa.me/51934995434?text=${encodeURIComponent(PROMOTION_WHATSAPP_MESSAGE)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Consultar promoción por WhatsApp"
                 >
+                    <img
+                        src="${"./" + encodeURIComponent(PROMOTION_IMAGE_FILE)}"
+                        alt="Anuncio promocional de J&M S.A.C. - Consultar por WhatsApp"
+                        class="promotion-image"
+                    >
+                </a>
             </div>
         </div>
     `;
