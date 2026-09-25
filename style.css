@@ -91,17 +91,31 @@ img {
     min-height: 78px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 30px;
+    position: relative;
 }
 
 .logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 21px;
-    font-weight: 800;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
     color: #0b1f3a;
+    z-index: 2;
+}
+
+.logo-image {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    border-radius: 10px;
+    display: block;
 }
 
 .logo-icon {
@@ -1281,7 +1295,13 @@ section {
     }
 
     .logo {
-        font-size: 18px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .logo-image {
+        width: 44px;
+        height: 44px;
     }
 
     .logo-icon {
