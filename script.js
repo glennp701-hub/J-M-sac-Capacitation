@@ -43,7 +43,7 @@ const SITE_IMAGE_FILES = [
 ];
 
 const PROMOTION_IMAGE_FILE =
-    "WhatsApp Image 2026-03-31 at 7.20.32 PM.jpeg";
+    "PROMOCION.jpeg";
 
 function getCatalogImage(title = "") {
     const normalized = normalizeText(title);
