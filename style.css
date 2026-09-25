@@ -1426,3 +1426,30 @@ section {
         border-radius: 12px;
     }
 }
+
+
+/* Imagen principal del instituto */
+.hero-institute-image {
+    width: min(100%, 620px);
+    margin: 0 0 24px;
+}
+
+.hero-institute-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 230px;
+    object-fit: contain;
+    object-position: left center;
+}
+
+@media (max-width: 768px) {
+    .hero-institute-image {
+        width: min(100%, 520px);
+        margin-bottom: 20px;
+    }
+
+    .hero-institute-image img {
+        max-height: 180px;
+    }
+}
